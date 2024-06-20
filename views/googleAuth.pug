@@ -1,0 +1,34 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css")
+    script(src="/js/googleAuth.js" type="module")
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .login-container {
+        text-align: center;
+      }
+      .login-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    script.
+      function googleLogin() {
+        console.log("Clicked")
+        signInWithGoogle();
+      }
+  body
+    .login-container
+      h1= pageTitle
+      a.login-button(href="javascript:void(0)" onclick="googleLogin()") Login
