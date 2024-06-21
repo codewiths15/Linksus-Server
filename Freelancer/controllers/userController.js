@@ -1,7 +1,8 @@
-const User = require('./../models/userModel');
+// Import the User model
+const User = require('../../Company/models/userModel');
 
 // Define the controller methods
-const userInfoController = {
+const userController = {
     post: async (req, res) => {
         try {
             // Create a new user instance with the data from the request body
@@ -26,21 +27,19 @@ const userInfoController = {
             res.status(201).json(savedUser);
         } catch (error) {
             // Handle errors, such as validation errors
-            if (error.code===11000){
-                res.status(400).json({"message": "User with email already exists!"})
-            } 
-            else if (error.name === 'ValidationError') {
+            if (error.code === 11000) {
+                res.status(400).json({ message: "User with email already exists!" });
+            } else if (error.name === 'ValidationError') {
                 const messages = {};
                 for (let field in error.errors) {
                     messages[field] = error.errors[field].message;
                 }
                 res.status(400).json({ message: "Validation failed", errors: messages });
-            }
-            else {
+            } else {
                 res.status(400).json({ message: error });
             }
         }
     }
 };
 
-module.exports = userInfoController;
+module.exports = userController;

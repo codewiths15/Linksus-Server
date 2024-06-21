@@ -7,6 +7,10 @@ const taskSchema = new Schema({
     required: true
   },
   applicantId: {
+    type: String, 
+    required: true
+  },
+  taskId: {
     type: String,
     required: true
   },
