@@ -1,10 +1,10 @@
 // Import the Firebase authentication module and the initialized Firebase auth instance
-const firebaseAuth = require('firebase/auth');
 const { auth } = require('../../services/firebaseService');
+const firebaseAuth = require('firebase/auth');
 
 // Define and export the controller for handling user registration and sign-in
 const authController = {
-    register: function (req, res) {
+    register: (req, res) => {
         const { email, password } = req.body;
 
         firebaseAuth.createUserWithEmailAndPassword(auth, email, password)
@@ -28,14 +28,14 @@ const authController = {
                         errorMessage = "Operation not allowed.";
                         break;
                     default:
-                        console.log(error);
+                        console.error(error);
                 }
-                console.log(errorMessage);
+                console.error(errorMessage);
                 res.status(400).send(errorMessage);
             });
     },
 
-    signIn: function (req, res) {
+    signIn: (req, res) => {
         const { email, password } = req.body;
 
         firebaseAuth.signInWithEmailAndPassword(auth, email, password)
@@ -46,16 +46,18 @@ const authController = {
             .catch((error) => {
                 let errorMessage = "An unexpected error occurred.";
                 switch (error.code) {
-                    case "auth/invalid-credential":
+                    case "auth/invalid-email":
+                    case "auth/user-not-found":
+                    case "auth/wrong-password":
                         errorMessage = "Invalid credentials.";
                         break;
                     case "auth/user-disabled":
                         errorMessage = "User disabled.";
                         break;
                     default:
-                        console.log(error);
+                        console.error(error);
                 }
-                console.log(errorMessage);
+                console.error(errorMessage);
                 res.status(400).send(errorMessage);
             });
     }

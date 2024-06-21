@@ -1,9 +1,10 @@
-// index.js
 require('dotenv').config();
 const express = require("express");
 const path = require('path');
+
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
 const http = require('http');
 const connectDB = require("./config/database");
 const setupSocket = require("./config/socket");
@@ -23,22 +24,20 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // Route setup
-const authRoute = require("./routes/authRoutes");
-app.use("/userAuth", authRoute);
+const authRoute = require("./Company/routes/authRoutes");
+app.use("/auth", authRoute);
 
-const userRoute = require("./routes/userRoutes");
-app.use("/", userRoute);
+const userRoute = require("./Freelancer/routes/userRoutes");
+app.use("/user", userRoute);
 
-const companyRoute = require("./routes/companyRoutes");
-app.use("/", companyRoute);
+const companyRoute = require("./Company/routes/companyRoutes");
+app.use("/company", companyRoute);
 
-const taskRoute = require("./routes/taskRoutes");
-app.use("/", taskRoute);
+const taskRoute = require("./Company/routes/taskRoutes");
+app.use("/tasks", taskRoute);
 
-const chatRoute = require("./routes/chatRoutes");
+const chatRoute = require("./Freelancer/routes/chatRoutes");
 app.use("/chat", chatRoute);
-
-app.get('/googlesignin', (req, res) => res.render("googleAuth"));
 
 // Connect to MongoDB
 connectDB();
@@ -50,7 +49,7 @@ const server = http.createServer(app);
 setupSocket(server);
 
 // Start the server
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.DEV_PORT || 3005;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

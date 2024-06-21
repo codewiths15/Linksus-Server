@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import the controllers for handling register and sign-in logic
-const authController = require('./../Company/controllers/authController');
+const authController = require('../controllers/authController');
 
 // Define the route for user registration
 // This route handles POST requests to /userAuth/register
