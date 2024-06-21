@@ -1,30 +1,38 @@
 const Company = require('../models/companyModel');
 
 const companyController = {
-    post: async (req, res) => {
+    registerCompany: async (req, res) => {
         try {
-            // Create a new company instance with the data from the request body
+            // Extract data from the request body
+            const {
+                companyId,
+                name,
+                website,
+                founded,
+                employees,
+                location,
+                industry,
+                description,
+                techStack,
+                logo,
+                additionalDetails,
+                contact,
+            } = req.body;
+
+            // Create a new company instance with the extracted data
             const newCompany = new Company({
-                name: req.body.name,
-                website: req.body.website,
-                additionalDetails: {
-                    foundedYear: req.body.additionalDetails.foundedYear,
-                    foundedMonth: req.body.additionalDetails.foundedMonth,
-                    numberOfEmployees: req.body.additionalDetails.numberOfEmployees,
-                    location: {
-                        basedIn: req.body.additionalDetails.location.basedIn,
-                        countriesEstablished: req.body.additionalDetails.location.countriesEstablished
-                    },
-                    industry: req.body.additionalDetails.industry
-                },
-                profile: req.body.profile,
-                contactDetails: {
-                    twitter: req.body.contactDetails.twitter,
-                    facebook: req.body.contactDetails.facebook,
-                    linkedin: req.body.contactDetails.linkedin,
-                    gmail: req.body.contactDetails.gmail
-                },
-                techStack: req.body.techStack.map(tech => ({ name: tech.name }))
+                companyId,
+                name,
+                website,
+                founded,
+                employees,
+                location,
+                industry,
+                description,
+                techStack,
+                logo,
+                additionalDetails,
+                contact
             });
 
             // Save the new company to the database
@@ -39,6 +47,93 @@ const companyController = {
             // Handle errors, such as validation errors
             console.error("Error saving company:", error);
             res.status(400).json({ message: error.message });
+        }
+    },
+
+    getAllCompanies: async (req, res) => {
+        try {
+            const companies = await Company.find();
+            res.status(200).json(companies);
+        } catch (error) {
+            console.error("Error fetching companies:", error);
+            res.status(500).json({ message: "Error fetching companies", error: error.message });
+        }
+    },
+
+    getCompanyById: async (req, res) => {
+        const { companyId } = req.params;
+        try {
+            const company = await Company.findOne({ companyId });
+            if (!company) {
+                return res.status(404).json({ message: "Company not found" });
+            }
+            res.status(200).json(company);
+        } catch (error) {
+            console.error("Error fetching company:", error);
+            res.status(500).json({ message: "Error fetching company", error: error.message });
+        }
+    },
+
+    updateCompanyById: async (req, res) => {
+        const { companyId } = req.params;
+        try {
+            // Extract fields that can be updated from request body
+            const {
+                name,
+                website,
+                founded,
+                employees,
+                location,
+                industry,
+                description,
+                techStack,
+                logo,
+                additionalDetails,
+                contact
+            } = req.body;
+
+            const updatedCompany = await Company.findOneAndUpdate(
+                { companyId },
+                {
+                    name,
+                    website,
+                    founded,
+                    employees,
+                    location,
+                    industry,
+                    description,
+                    techStack,
+                    logo,
+                    additionalDetails,
+                    contact
+                },
+                { new: true, runValidators: true }
+            );
+
+            if (!updatedCompany) {
+                return res.status(404).json({ message: "Company not found" });
+            }
+
+            res.status(200).json(updatedCompany);
+        } catch (error) {
+            console.error("Error updating company:", error);
+            res.status(400).json({ message: "Error updating company", error: error.message });
+        }
+    },
+
+    deleteCompanyById: async (req, res) => {
+        const { companyId } = req.params;
+        try {
+            const deletedCompany = await Company.findOneAndDelete({ companyId });
+
+            if (!deletedCompany) {
+                return res.status(404).json({ message: "Company not found" });
+            }
+
+            res.status(200).json({ message: "Company deleted successfully" });
+        } catch (error) {
+            console.error("Error deleting company:", error);
+            res.status(500).json({ message: "Error deleting company", error: error.message });
         }
     }
 };

@@ -12,7 +12,8 @@ const taskSchema = new Schema({
   },
   taskId: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   taskTitle: {
     type: String,
