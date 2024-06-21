@@ -7,7 +7,22 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  email: {
+  gender: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  dateOfBirth: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  language: {
+    type: [String],
+    required: true,
+    trim: true,
+  },
+  address: {
     type: String,
     required: true,
     unique: true,
@@ -19,6 +34,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
     maxlength: 180 * 6 // Approximate limit of 180 words
+  },
+  currentTask: {
+    type: String,
+    required: true,
+    trim: true,
   },
   experience: [{
     role: {

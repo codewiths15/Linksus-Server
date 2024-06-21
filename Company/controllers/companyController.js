@@ -1,6 +1,6 @@
-const Company = require('./../models/companyModel');
+const Company = require('../models/companyModel');
 
-const companyInfoController = {
+const companyController = {
     post: async (req, res) => {
         try {
             // Create a new company instance with the data from the request body
@@ -43,4 +43,4 @@ const companyInfoController = {
     }
 };
 
-module.exports = companyInfoController;
+module.exports = companyController;

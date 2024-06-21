@@ -1,6 +1,6 @@
 // routes/chatRoutes.js
 const express = require('express');
-const Chat = require('../models/chatModel');
+const Chat = require('../Freelancer/models/chatModel');
 
 const router = express.Router();
 
