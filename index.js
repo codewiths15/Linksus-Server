@@ -39,6 +39,9 @@ app.use("/tasks", taskRoute);
 const chatRoute = require("./Freelancer/routes/chatRoutes");
 app.use("/chat", chatRoute);
 
+const applicantRoute = require("./Company/routes/applicantRoutes");
+app.use("/applicant", applicantRoute)
+
 // Connect to MongoDB
 connectDB();
 

@@ -6,10 +6,6 @@ const taskSchema = new Schema({
     type: String,
     required: true
   },
-  applicantId: {
-    type: String, 
-    required: true
-  },
   taskId: {
     type: String,
     required: true,
@@ -53,6 +49,6 @@ const taskSchema = new Schema({
   }
 });
 
-const Task = mongoose.model('Task', taskSchema);
+const TaskModel = mongoose.model('TaskModel', taskSchema);
 
-module.exports = Task;
+module.exports = TaskModel;
